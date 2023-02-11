@@ -2,14 +2,14 @@
     <div class="section-content section-content-p30">
         <div class="container-fluid">
 
-            <form [formGroup]="checkoutFormGroup" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()" [formGroup]="checkoutFormGroup">
 
                 <!-- customer form group -->
-                <div formGroupName="customer" class="form-area">
+                <div class="form-area" formGroupName="customer">
                     <h3>Customer</h3>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>First Name</label></div>
+                        <div class="col-md-2"><label>First Name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="firstName" type="text">
@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Last Name</label></div>
+                        <div class="col-md-2"><label>Last Name</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="lastName" type="text">
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Email</label></div>
+                        <div class="col-md-2"><label>Email</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="email" type="text">
@@ -38,22 +38,22 @@
                 </div>
 
                 <!-- shipping Address -->
-                <div formGroupName="shippingAddress" class="form-area">
+                <div class="form-area" formGroupName="shippingAddress">
                     <h3>Shipping Address</h3>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Country</label></div>
+                        <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
-                                    <option>TO DO</option>
+                                <select formControlName="country" (change)="getStates('shippingAddress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country">{{country.name}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Street</label></div>
+                        <div class="col-md-2"><label>Street</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="street" type="text">
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>City</label></div>
+                        <div class="col-md-2"><label>City</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
@@ -71,18 +71,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>State</label></div>
+                        <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
-                                    <option>TO DO</option>
+                                    <option *ngFor="let state of shippingAddressStates" ngValue="state" >{{state.name}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Zip Code</label></div>
+                        <div class="col-md-2"><label>Zip Code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -95,29 +95,29 @@
                 <!-- Add check box to copy shipping to billing -->
                 <div class="input-space">
                     <label class="au-checkbox">
-                        <input type="checkbox" (change)="copyShippingAddressToBillingAddress({event : $event})">
+                        <input (change)="copyShippingAddressToBillingAddress({event : $event})" type="checkbox">
                         <span class="au-checkmark"></span>Billing Address same as Shipping Address
                     </label>
                 </div>
 
 
                 <!-- Billing Address -->
-                <div formGroupName="billingAddress" class="form-area">
+                <div class="form-area" formGroupName="billingAddress">
                     <h3>Billing Address</h3>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Country</label></div>
+                        <div class="col-md-2"><label>Country</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="country">
-                                    <option>TO DO</option>
+                                <select formControlName="country" (change)="getStates('billingAddress')">
+                                    <option *ngFor="let country of countries" [ngValue]="country" >{{country.name}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Street</label></div>
+                        <div class="col-md-2"><label>Street</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="street" type="text">
@@ -126,7 +126,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>City</label></div>
+                        <div class="col-md-2"><label>City</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="city" type="text">
@@ -135,18 +135,18 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>State</label></div>
+                        <div class="col-md-2"><label>State</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="state">
-                                    <option>TO DO</option>
+                                    <option *ngFor="let state of billingAddressStates" ngValue="state" >{{state.name}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Zip Code</label></div>
+                        <div class="col-md-2"><label>Zip Code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="zipCode" type="text">
@@ -157,11 +157,11 @@
                 </div>
 
                 <!-- Credit Card -->
-                <div formGroupName="creditCard" class="form-area">
+                <div class="form-area" formGroupName="creditCard">
                     <h3>Credit Card</h3>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Card Type</label></div>
+                        <div class="col-md-2"><label>Card Type</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="cardType">
@@ -173,7 +173,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Name on Card</label></div>
+                        <div class="col-md-2"><label>Name on Card</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="nameOnCard" type="text">
@@ -182,7 +182,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Card Number</label></div>
+                        <div class="col-md-2"><label>Card Number</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="cardNumber" type="text">
@@ -191,7 +191,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Security Code</label></div>
+                        <div class="col-md-2"><label>Security Code</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <input formControlName="securityCode" type="text">
@@ -200,7 +200,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Expiration Month</label></div>
+                        <div class="col-md-2"><label>Expiration Month</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
                                 <select formControlName="expirationMonth">
@@ -213,10 +213,10 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-2"> <label>Expiration Year</label></div>
+                        <div class="col-md-2"><label>Expiration Year</label></div>
                         <div class="col-md-9">
                             <div class="input-space">
-                                <select formControlName="expirationYear">
+                                <select (change)="handleMonthsAndYears()" formControlName="expirationYear">
                                     <option *ngFor="let year of creditCardYears">
                                         {{year}}
                                     </option>
@@ -237,7 +237,7 @@
 
                 <!-- submit button-->
                 <div class="text-center">
-                    <button type="submit" class="btn btn-info ">Purchase</button>
+                    <button class="btn btn-info " type="submit">Purchase</button>
                 </div>
 
             </form>

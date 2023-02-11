@@ -12,7 +12,7 @@ import {CartItem} from "../../common/cart-item";
 })
 export class ProductDetailsComponent implements OnInit {
 
-    product!: Product ;
+    product!: Product;
 
     constructor(
         private productService: ProductService,
@@ -27,6 +27,11 @@ export class ProductDetailsComponent implements OnInit {
         })
     }
 
+    addToCart() {
+        const theCartItem = new CartItem(this.product)
+        this.cartService.addToCart(theCartItem)
+    }
+
     private handleProductDetails() {
         const theProductId: number = +this.route.snapshot.paramMap.get('id')!;
         this.productService.getProduct(theProductId).subscribe(
@@ -34,10 +39,5 @@ export class ProductDetailsComponent implements OnInit {
                 this.product = value;
             }
         )
-    }
-
-    addToCart() {
-        const theCartItem = new CartItem(this.product)
-        this.cartService.addToCart(theCartItem)
     }
 }
