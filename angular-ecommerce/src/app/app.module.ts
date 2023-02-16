@@ -1,12 +1,12 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {ProductListComponent} from './components/product-list/product-list.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ProductService} from './services/product.service';
 
-import {RouterModule, Routes} from '@angular/router';
+import {Router, RouterModule, Routes} from '@angular/router';
 import {ProductCategoryMenuComponent} from './components/product-category-menu/product-category-menu.component';
 import {SearchComponent} from './components/search/search.component';
 import {ProductDetailsComponent} from './components/product-detailes/product-details.component';
@@ -22,12 +22,21 @@ import OktaAuth from "@okta/okta-auth-js";
 import {OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent} from "@okta/okta-angular";
 
 const oktaConfig = configFile.oidc;
-const oktaAuth = new OktaAuth(oktaConfig);
+
+const oktaConfigV2 = Object.assign({
+    onAuthRequired: (oktaAuth : any, injector : Injector) => {
+        const router = injector.get(Router)
+        router.navigate(['/login'])
+    }
+},configFile.oidc)
+
+const oktaAuth = new OktaAuth(oktaConfigV2);
+
 
 const routes: Routes = [
-    {path: 'login/callback', component: OktaCallbackComponent},
-    {path: 'login', component: LoginComponent},
     {path: '', redirectTo: '/products', pathMatch: 'full'},
+    {path: 'login', component: LoginComponent},
+    {path: 'login/callback', component: OktaCallbackComponent},
     {path: 'products', component: ProductListComponent},
     {path: 'products/:id', component: ProductDetailsComponent},
     {path: 'cart-details', component: CartDetailsComponent},

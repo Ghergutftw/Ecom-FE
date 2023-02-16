@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import configFile from "../../config/config-file";
-import {OKTA_AUTH} from "@okta/okta-angular";
-import OktaAuth from "@okta/okta-auth-js";
-import OktaSignIn from "@okta/okta-signin-widget";
+import { Component, Inject, OnInit } from '@angular/core';
+import { OKTA_AUTH } from '@okta/okta-angular';
+import { OktaAuth } from '@okta/okta-auth-js';
+import OktaSignIn from '@okta/okta-signin-widget';
+
+import configFile from '../../config/config-file';
 
 @Component({
     selector: 'app-login',
@@ -11,9 +12,10 @@ import OktaSignIn from "@okta/okta-signin-widget";
 })
 export class LoginComponent implements OnInit {
 
-    oktaSignin: any
+    oktaSignin: any;
 
     constructor(@Inject(OKTA_AUTH) private oktaAuth: OktaAuth) {
+
         this.oktaSignin = new OktaSignIn({
             logo: 'assets/images/capybara-sexy.jpg',
             baseUrl: configFile.oidc.issuer.split('/oauth2')[0],
@@ -29,17 +31,17 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.oktaSignin.remove();
-        this.oktaSignin.renderEl(
-            {el: '#okta-sign-in'},
+        this.oktaSignin.renderEl({
+                el: '#okta-sign-in'}, // this name should be same as div tag id in login.component.html
             (response: any) => {
-                if (response.scopes === 'SUCCESS') {
-                    this.oktaSignin.signInWithRedirect();
+                if (response.status === 'SUCCESS') {
+                    this.oktaAuth.signInWithRedirect();
                 }
             },
             (error: any) => {
                 throw error;
             }
-        )
+        );
     }
 
 }
